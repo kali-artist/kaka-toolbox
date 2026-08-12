@@ -9,6 +9,16 @@
       "size": "43 MB",
       "url": "https://aikaka-use.oss-cn-beijing.aliyuncs.com/tools/KakaImageConverter.exe",
       "external": true
+    },
+    {
+      "id": "image-enhancer",
+      "name": "图片清晰化工具",
+      "icon": "✨",
+      "description": "OpenCV 驱动的图片超分辨率与锐化工具，支持 2x / 4x 放大、多种锐化算法（USM/Laplacian/unsharp）、批量处理、拖拽操作，一键提升图片清晰度。",
+      "category": "Windows应用",
+      "size": "69 MB",
+      "url": "https://aikaka-use.oss-cn-beijing.aliyuncs.com/tools/ImageEnhancer.exe",
+      "external": true
     }
   ]
 }
