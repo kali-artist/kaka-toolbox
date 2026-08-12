@@ -215,7 +215,7 @@ if (sessionStorage.getItem('auth') === '1') {
 
 async function loadTools() {
   try {
-    const resp = await fetch('https://aikaka-use.oss-cn-beijing.aliyuncs.com/tools/tools.json');
+    const resp = await fetch('tools.json');
     const data = await resp.json();
     const grid = document.getElementById('grid');
     const empty = document.getElementById('empty');
