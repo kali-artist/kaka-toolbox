@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>kaka工具箱🧰</title>
+<style>
+:root {
+  --bg: #0f1117;
+  --card: #1a1d27;
+  --card-hover: #232732;
+  --accent: #6c5ce7;
+  --accent-glow: rgba(108, 92, 231, 0.3);
+  --text: #e2e2e2;
+  --text-dim: #888;
+  --border: #2a2d3a;
+  --success: #00b894;
+  --danger: #e74c3c;
+  --radius: 14px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  min-height: 100vh;
+}
+
+/* 登录遮罩 */
+#login-overlay {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000;
+}
+.login-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 36px;
+  width: 360px;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+.login-box h1 { font-size: 28px; margin-bottom: 6px; }
+.login-box p { color: var(--text-dim); font-size: 14px; margin-bottom: 24px; }
+.login-box input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.login-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 16px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.login-box button:hover { background: #5a4bd1; transform: translateY(-1px); }
+.login-error { color: var(--danger); font-size: 13px; margin-top: 10px; display: none; }
+
+/* 主界面 */
+#app { display: none; max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 32px;
+}
+.header h1 { font-size: 24px; }
+.header h1 span { margin-left: 8px; }
+.logout-btn {
+  background: none; border: 1px solid var(--border); color: var(--text-dim);
+  padding: 6px 16px; border-radius: 8px; cursor: pointer; font-size: 13px;
+  transition: all 0.2s;
+}
+.logout-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+.section-title {
+  font-size: 16px; color: var(--text-dim); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* 工具卡片网格 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: all 0.2s;
+  display: flex; flex-direction: column;
+}
+.card:hover {
+  background: var(--card-hover);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.card-icon { font-size: 36px; margin-bottom: 12px; }
+.card-title { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+.card-desc { font-size: 14px; color: var(--text-dim); line-height: 1.5; flex: 1; margin-bottom: 16px; }
+.card-meta {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px; font-size: 13px; color: var(--text-dim);
+}
+.card-meta .tag {
+  background: rgba(108,92,231,0.15); color: var(--accent);
+  padding: 2px 10px; border-radius: 20px; font-size: 12px;
+}
+.card-meta .size { font-size: 12px; }
+.download-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--accent); color: #fff;
+  padding: 10px; border-radius: 8px; text-decoration: none;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s;
+}
+.download-btn:hover { background: #5a4bd1; }
+.download-btn.external { background: var(--success); }
+.download-btn.external:hover { background: #00a381; }
+
+/* 空状态 */
+.empty { text-align: center; padding: 60px 20px; color: var(--text-dim); }
+.empty h3 { font-size: 18px; margin-bottom: 8px; }
+
+/* 响应式 */
+@media (max-width: 640px) {
+  #app { padding: 20px 16px; }
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- 登录遮罩 -->
+<div id="login-overlay">
+  <div class="login-box">
+    <h1>🧰 kaka工具箱</h1>
+    <p>请输入管理员密码</p>
+    <input type="password" id="pwd-input" placeholder="密码" autofocus>
+    <button onclick="login()">进入</button>
+    <div class="login-error" id="login-error">密码错误，请重试</div>
+  </div>
+</div>
+
+<!-- 主界面 -->
+<div id="app">
+  <div class="header">
+    <h1>🧰 <span>kaka工具箱</span></h1>
+    <button class="logout-btn" onclick="logout()">退出</button>
+  </div>
+  <div class="section-title">📦 所有工具</div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none">
+    <h3>暂无工具</h3>
+    <p>后续添加的工具会显示在这里</p>
+  </div>
+</div>
+
+<script>
+// 密码 hash（SHA-256 of "kaka@2026"）
+const PWD_HASH = "87e73470bebabc4fe8e6109c269f3dc186e2a075dadbd9657a8387b23dc517a9";
+
+async function sha256(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function login() {
+  const input = document.getElementById('pwd-input').value;
+  const hash = await sha256(input);
+  if (hash === PWD_HASH) {
+    sessionStorage.setItem('auth', '1');
+    document.getElementById('login-overlay').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    loadTools();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('auth');
+  location.reload();
+}
+
+// 回车登录
+document.getElementById('pwd-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') login();
+});
+
+// 已登录则直接显示
+if (sessionStorage.getItem('auth') === '1') {
+  document.getElementById('login-overlay').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadTools();
+}
+
+async function loadTools() {
+  try {
+    const resp = await fetch('tools.json');
+    const data = await resp.json();
+    const grid = document.getElementById('grid');
+    const empty = document.getElementById('empty');
+    if (!data.tools || data.tools.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    grid.innerHTML = data.tools.map(t => `
+      <div class="card">
+        <div class="card-icon">${t.icon || '📦'}</div>
+        <div class="card-title">${t.name}</div>
+        <div class="card-desc">${t.description}</div>
+        <div class="card-meta">
+          <span class="tag">${t.category || '工具'}</span>
+          <span class="size">${t.size || ''}</span>
+        </div>
+        <a class="download-btn ${t.external ? 'external' : ''}" href="${t.url}" ${t.external ? 'target="_blank"' : ''} download>
+          ${t.external ? '🔗 外部下载' : '⬇️ 下载'}
+        </a>
+      </div>
+    `).join('');
+  } catch (e) {
+    document.getElementById('empty').style.display = 'block';
+    document.getElementById('empty').querySelector('h3').textContent = '加载失败';
+  }
+}
+</script>
+</body>
+</html>

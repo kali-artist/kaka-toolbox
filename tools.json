@@ -1,0 +1,14 @@
+{
+  "tools": [
+    {
+      "id": "kaka-image-converter",
+      "name": "Kaka图片格式转换器",
+      "icon": "🖼️",
+      "description": "拖拽图片到窗口即可批量转换格式，支持 webp/jpg/png/bmp/gif/tiff 互转，可选输出质量，EXIF自动修正，透明通道自动补白底。",
+      "category": "Windows应用",
+      "size": "43 MB",
+      "url": "https://aikaka-use.oss-cn-beijing.aliyuncs.com/tools/KakaImageConverter.exe",
+      "external": true
+    }
+  ]
+}
