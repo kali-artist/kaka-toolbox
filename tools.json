@@ -11,13 +11,13 @@
       "external": true
     },
     {
-      "id": "image-enhancer",
-      "name": "图片清晰化工具",
+      "id": "upscayl",
+      "name": "Upscayl 图像无损放大",
       "icon": "✨",
-      "description": "OpenCV 驱动的图片超分辨率与锐化工具，支持 2x / 4x 放大、多种锐化算法（USM/Laplacian/unsharp）、批量处理、拖拽操作，一键提升图片清晰度。",
+      "description": "AI 超分辨率放大，2x/4x/16x 模型可选。",
       "category": "Windows应用",
-      "size": "69 MB",
-      "url": "https://aikaka-use.oss-cn-beijing.aliyuncs.com/tools/ImageEnhancer.exe",
+      "size": "249 MB",
+      "url": "https://aikaka-use.oss-cn-beijing.aliyuncs.com/tools/Upscayl-Setup-2.15.0.exe",
       "external": true
     }
   ]
